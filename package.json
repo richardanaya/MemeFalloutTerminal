@@ -1,0 +1,11 @@
+{
+  "name": "meme-terminal",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "latest"
+  },
+  "subdomain": "meme-terminal",
+  "scripts": {
+    "start": "server.js"
+  }
+}

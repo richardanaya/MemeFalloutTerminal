@@ -1,0 +1,276 @@
+<html style="background-color: black">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/fallout.css"/>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/underscore-min.js"></script>
+</head>
+<body>
+<div class="screen">
+    <div id="screenWin">
+    <br>
+        <center><img src="/images/fallout3boy.png"><br>
+            Great Job! Please standby ... <div id="countDown"></div>
+        </center>
+        </div>
+<div id="screenFail">
+    <br>
+    <br>
+    <br>
+<center>TERMINAL LOCKED<br><br>
+PLEASE CONTACT AN ADMINISTRATOR</center>
+</div>
+<div id="screenGame">
+ROBCO INDUSTRIES (TM) TERMLINK PROTOCOL<br>
+ENTER PASSWORD NOW<br>
+<br>
+<div class="header"><span id="numberOfTriesNumber">4</span> ATTEMPT(S) LEFT:<div class="dotHolder"> <span id="numberOfTries"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></span></div></div><br>
+<div class="gameArea">
+<div class="gameColumn">
+0xF92C<br>
+0xF938<br>
+0xF944<br>
+0xF950<br>
+0xF96C<br>
+0xF978<br>
+0xF984<br>
+0xF980<br>
+0xF99C<br>
+0xF908<br>
+0xF9A4<br>
+</div>
+<div id="gameColumnLeft" class="gameColumn">
+</div>
+<div class="gameColumn">
+0xF9F8<br>
+0xFA04<br>
+0xFA10<br>
+0xFA1C<br>
+0xFA28<br>
+0xFA34<br>
+0xFA40<br>
+0xFA4C<br>
+0xFA58<br>
+0xFA64<br>
+0xFA70<br>
+</div>
+<div id="gameColumnRight" class="gameColumn">
+</div>
+<table class="gameColumn">
+    <tr><td valign="bottom">
+        <div id="gameColumnResult">
+
+</div>
+    </td></tr>
+    </table>
+
+</div>
+<hr class="clear">
+<br/>
+GITHUB: <a href="https://github.com/richardanaya/MemeFalloutTerminal">LINK TO SOURCE</a>
+CREATOR: RICHARD
+</div>
+</div>
+</body>
+<script>
+    $('#screenFail').hide();
+    $('#screenWin').hide();
+    $('#screenGame').hide();
+    $('#screenGame').fadeIn(1000);
+    var attemptsRemaining = 4;
+    updateAttemptsRemaining = function() {
+        $('#numberOfTriesNumber').html(attemptsRemaining+'');
+        var s = "";
+        for( var i = 0 ; i < attemptsRemaining; i++) {
+            s += '<div class="dot"></div>'
+        }
+        $('#numberOfTries').html(s);
+    };
+    updateAttemptsRemaining();
+    var wordsUsed = [];
+    var chosenWord = "";
+
+
+
+
+    var chooseWord = function(i) {
+        var word = wordsUsed[i];
+        if( word == "RICKROLL") {
+            window.location = "http://www.youtube.com/watch?v=oHg5SJYRHA0";
+            return;
+        }
+        if( word == chosenWord) {
+            $('#screenGame').fadeOut(1000,function(){
+                $('#screenWin').fadeIn(1000, function() {
+                    $('#countDown').append('5 ');
+                    setTimeout(function(){
+                        $('#countDown').append('4 ');
+                        setTimeout(function(){
+                        $('#countDown').append('3 ');
+                            setTimeout(function(){
+                        $('#countDown').append('2 ');
+                                setTimeout(function(){
+                        $('#countDown').append('1 ');
+                                    setTimeout(function(){
+                        $('#countDown').append('0 ');
+                                        setTimeout(function(){
+                        window.location = 'http://www.youtube.com/watch?v=TjgTE1a65jg'
+                    },1000);
+                    },1000);
+                    },1000);
+                    },1000);
+                    },1000);
+                    },1000);
+                });
+            });
+        }
+        else {
+            $('#gameColumnResult').append('>'+word+'<br>');
+            $('#gameColumnResult').append('>Entry denied<br>');
+            var numCorrect = 0;
+            var checkedLetters = [];
+            for( var j = 0 ; j < word.length; j++) {
+                if( !(_.include(checkedLetters,word[j])) && chosenWord.indexOf(word[j]) != -1 ) {
+                    numCorrect++;
+                    checkedLetters.push(word[j])
+                }
+            }
+            $('#gameColumnResult').append('>'+numCorrect+ ' correct.<br>');
+
+            attemptsRemaining--;
+            updateAttemptsRemaining();
+        }
+        if( attemptsRemaining == 0 ) {
+            $('#screenGame').fadeOut(1000,function(){
+                $('#screenFail').fadeIn(1000);
+            });
+        }
+    };
+
+    var lineWidth = 12;
+    var lineCount = 11;
+    var words = [
+            'REDDIT',
+            'NARWHAL',
+            'BACON',
+            'TROLL',
+            'CHEESEBURGER',
+            'LOLCATS',
+            'RAGE',
+            'RICKROLL',
+            'SPARTA',
+            'ORLY',
+            'NINETHOUSAND',
+            'FAIL',
+            'KITLER',
+            'LEEKSPIN',
+            'SOVIETRUSSIA'
+    ];
+    var characters = "()[]!;*-+%?='|;$:@{}^";
+    var randInt= function(i){return Math.floor(Math.random()*i);};
+    var insertString = function(s,text, i){return s.substr(0,i) + text + s.substr(i);};
+    var replaceString = function(s,text,i){return s.substr(0,i) + text + s.substr(i+text.length);};
+    var gameStringA = "";
+    var gameStringB = "";
+    for( var i = 0; i < lineCount*lineWidth; i++){
+        gameStringA += characters[randInt(characters.length)];
+        gameStringB += characters[randInt(characters.length)];
+    }
+
+
+    var wordRandSpacing = 20;
+
+    i = 0;
+    while( i < gameStringA.length ) {
+        i += randInt(wordRandSpacing);
+        var randWord = words[randInt(words.length)];
+        while( _.include(wordsUsed,randWord) ) {
+            randWord = words[randInt(words.length)];
+        }
+        if( i+randWord.length < gameStringA.length) {
+            var prefixText = '<span class="specialWord" onclick="chooseWord('+wordsUsed.length+')">';
+            var postfixText = '</span>';
+            gameStringA = replaceString(gameStringA,randWord,i);
+            gameStringA = insertString(gameStringA,prefixText,i);
+            gameStringA = insertString(gameStringA,postfixText,i+prefixText.length+randWord.length);
+            i+=prefixText.length+postfixText.length;
+            wordsUsed.push(randWord);
+        }
+        i+=randWord.length;
+        i += randInt(wordRandSpacing);
+    }
+
+    i = 0;
+    while( i < gameStringB.length ) {
+        i += randInt(wordRandSpacing);
+        var randWord = words[randInt(words.length)];
+        while( _.include(wordsUsed,randWord) ) {
+            randWord = words[randInt(words.length)];
+        }
+        if( i+randWord.length < gameStringB.length) {
+            var prefixText = '<span class="specialWord" onclick="chooseWord('+wordsUsed.length+')">';
+            var postfixText = '</span>';
+            gameStringB = replaceString(gameStringB,randWord,i);
+            gameStringB = insertString(gameStringB,prefixText,i);
+            gameStringB = insertString(gameStringB,postfixText,i+prefixText.length+randWord.length);
+            i+=prefixText.length+postfixText.length;
+            wordsUsed.push(randWord);
+        }
+        i+=randWord.length;
+        i += randInt(wordRandSpacing);
+    }
+
+    chosenWord = wordsUsed[randInt(wordsUsed.length)];
+
+    var isCounting = true;
+    var cursor = 0;
+    var i = 0;
+    while( i < gameStringA.length){
+         if(gameStringA[i]=='<'){
+            isCounting = false;
+        }
+        if(gameStringA[i]=='>'){
+            isCounting = true;
+            i++;
+        }
+        if( isCounting ) {
+            if( cursor !=0 && cursor%(lineWidth) == 0) {
+                gameStringA = insertString(gameStringA,'<br>',i);
+                i+=4;
+            }
+            cursor++;
+        }
+        i++;
+    }
+
+
+     var isCounting = true;
+    var cursor = 0;
+    var i = 0;
+    while( i < gameStringB.length){
+         if(gameStringB[i]=='<'){
+            isCounting = false;
+        }
+        if(gameStringB[i]=='>'){
+            isCounting = true;
+            i++;
+        }
+        if( isCounting ) {
+            if( cursor !=0 && cursor%(lineWidth) == 0) {
+                gameStringB = insertString(gameStringB,'<br>',i);
+                i+=4;
+            }
+            cursor++;
+        }
+        i++;
+    }
+
+
+    $('#gameColumnLeft').html(gameStringA);
+    $('#gameColumnRight').html(gameStringB);
+
+
+
+</script>
+</html>
